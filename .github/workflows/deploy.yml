@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "*" ]
+
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2.5.0
+      with:
+        # SSH private key
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Deploy SSH
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_PRODUCTION }} -p ${{ secrets.SSH_PORT_PRODUCTION }} "cd ${{ secrets.SSH_USER }} && git pull && sudo docker-compose stop && sudo docker-compose up -d --build"
+
+
