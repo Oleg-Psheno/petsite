@@ -17,10 +17,10 @@ jobs:
       with:
         # SSH private key
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # public keys of SSH servers
         known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-        name: ssh-rsa
         
     - name: Deploy SSH
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_PRODUCTION }} -p ${{ secrets.SSH_PORT_PRODUCTION }} "cd ${{ secrets.SSH_USER }}/{{ secrets.APP_FOLDER }} && git pull && sudo docker-compose stop && sudo docker-compose up -d --build"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_PRODUCTION }} -p ${{ secrets.SSH_PORT_PRODUCTION }} "cd ${{ secrets.SSH_USER }}/${{ secrets.APP_FOLDER }} && git pull && sudo docker-compose stop && sudo docker-compose up -d --build"
 
 
