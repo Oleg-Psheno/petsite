@@ -2,9 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
-    workflow_call:
-
+    branches: [ "*" ]
 
 jobs:
 
@@ -23,6 +21,12 @@ jobs:
         known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
         
     - name: Deploy SSH
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_PRODUCTION }} -p ${{ secrets.SSH_PORT_PRODUCTION }} "cd ${{ secrets.APP_FOLDER }} && git checkout ${GITHUB_REF##*/} && git pull && docker compose stop && docker compose up -d --build"
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_PRODUCTION }} -p ${{ secrets.SSH_PORT_PRODUCTION }} \
+        "cd ${{ secrets.APP_FOLDER }} && \
+        git checkout ${GITHUB_REF##*/} && \
+        git pull && \
+        docker compose stop && \
+        docker compose up -d --build"
 
 
