@@ -1,3 +1,13 @@
+
+<% if current_user %>
+  <p>You are signed in as:</p>
+  <%= current_user.email %>
+  <%= button_to 'Logout', destroy_user_session_path, method: :delete %>
+  <%= link_to 'Change password', edit_user_registration_path %>
+<% else %>
+  <%= button_to 'Login', new_user_session_path %>
+  <p>You are not signed in</p>
+<% end %>
 <h1>Main#index</h1>
 <h2>This is temporary main page</h2>
 <p>Find me in app/views/main/index.html.erb</p>
